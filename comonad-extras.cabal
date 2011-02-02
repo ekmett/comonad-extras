@@ -1,6 +1,6 @@
 name:          comonad-extras
 category:      Control, Comonads
-version:       0.1
+version:       0.1.1
 license:       BSD3
 cabal-version: >= 1.6
 license-file:  LICENSE
@@ -32,7 +32,8 @@ library
     distributive >= 0.1 && < 0.2,
     semigroupoids >= 1.0 && < 1.2,
     semigroups >= 0.3.4 && < 0.4,
-    transformers >= 0.2.0 && <= 0.3
+    transformers >= 0.2.0 && <= 0.3,
+    MemoTrie >= 0.4.9 && < 0.5
 
   if flag(DeriveDataTypeable)
     extensions: DeriveDataTypeable
@@ -43,5 +44,6 @@ library
   exposed-modules:
     Control.Comonad.Store.Zipper
     Control.Comonad.Store.Pointer
+    Control.Comonad.Store.MemoTrie
 
   ghc-options:      -Wall 
