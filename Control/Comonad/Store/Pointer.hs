@@ -1,4 +1,4 @@
-{-# LANGUAGE CPP, FlexibleInstances, MultiParamTypeClasses, FunctionalDependencies #-}
+{-# LANGUAGE CPP, FlexibleInstances, MultiParamTypeClasses, FunctionalDependencies, UndecidableInstances #-}
 -----------------------------------------------------------------------------
 -- |
 -- Module      :  Control.Comonad.Store.Pointer
@@ -42,6 +42,8 @@ import Control.Comonad
 import Control.Comonad.Hoist.Class
 import Control.Comonad.Trans.Class
 import Control.Comonad.Store.Class 
+import Control.Comonad.Traced.Class 
+import Control.Comonad.Env.Class 
 import Data.Functor.Identity
 import Data.Array
 
@@ -103,3 +105,10 @@ instance (Comonad w, Ix i) => ComonadStore i (PointerT i w) where
 -- | Extract the bounds of the currently focused array
 pointerBounds :: (Comonad w, Ix i) => PointerT i w a -> (i,i)
 pointerBounds (PointerT g _) = bounds (extract g)
+
+instance (ComonadTraced m w, Ix i) => ComonadTraced m (PointerT i w) where
+  trace m = trace m . lower
+
+instance (ComonadEnv m w, Ix i)  => ComonadEnv m (PointerT i w) where
+  ask = ask . lower
+

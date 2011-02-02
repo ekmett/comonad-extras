@@ -1,4 +1,4 @@
-{-# LANGUAGE CPP, TypeOperators, FlexibleInstances, MultiParamTypeClasses #-}
+{-# LANGUAGE CPP, TypeOperators, FlexibleInstances, MultiParamTypeClasses, UndecidableInstances #-}
 -----------------------------------------------------------------------------
 -- |
 -- Module      :  Control.Comonad.Store.MemoTrie
@@ -34,6 +34,8 @@ import Control.Comonad
 import Control.Comonad.Hoist.Class
 import Control.Comonad.Trans.Class
 import Control.Comonad.Store.Class
+import Control.Comonad.Env.Class
+import Control.Comonad.Traced.Class
 import Data.Functor.Identity
 import Data.MemoTrie
 
@@ -93,3 +95,8 @@ instance (Comonad w, HasTrie s) => ComonadStore s (StoreT s w) where
   peek s (StoreT g _) = untrie (extract g) s
   peeks f (StoreT g s) = untrie (extract g) (f s)
 
+instance (ComonadTraced m w, HasTrie s) => ComonadTraced m (StoreT s w) where
+  trace m = trace m . lower
+
+instance (ComonadEnv m w, HasTrie s) => ComonadEnv m (StoreT s w) where 
+  ask = ask . lower
