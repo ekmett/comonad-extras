@@ -23,14 +23,16 @@ flag DeriveDataTypeable
 
 library
   build-depends: 
+    array >= 0.3.0.2 && < 0.4,
     base >= 4 && < 4.4,
+    containers >= 0.4 && < 0.5,
     comonad >= 1.0.1 && < 1.1,
+    comonad-transformers >= 1.5.0.1 && < 1.6,
+    comonads-fd >= 1.5.0.1 && < 1.6,
     distributive >= 0.1 && < 0.2,
     semigroupoids >= 1.0 && < 1.2,
     semigroups >= 0.3.4 && < 0.4,
-    transformers >= 0.2.0 && <= 0.3,
-    comonad-transformers >= 1.5 && < 1.6,
-    comonads-fd >= 1.5.0 && < 1.6
+    transformers >= 0.2.0 && <= 0.3
 
   if flag(DeriveDataTypeable)
     extensions: DeriveDataTypeable

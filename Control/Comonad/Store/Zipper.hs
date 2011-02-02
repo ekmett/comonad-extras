@@ -9,11 +9,7 @@ import Control.Comonad (Extend(..), Comonad(..))
 
 import Data.Foldable
 import Data.Traversable 
-import Data.Stream.NonEmpty (NonEmpty(..))
 import Data.Functor.Apply
-import Data.Semigroup.Foldable
-import Data.Monoid
-import Data.Semigroup
 import Data.Semigroup.Traversable
 import Data.Sequence (Seq)
 import qualified Data.Sequence as Seq
@@ -26,7 +22,7 @@ zipper :: Traversable t => t a -> Maybe (Zipper t a)
 zipper t = case toList t of
   [] -> Nothing
   xs -> Just (Zipper (refill t) 0 (Seq.fromList xs)) 
-  where refill bs as = snd (mapAccumL (\(a:as') b -> (as', a)) (toList as) bs)
+  where refill bs as = snd (mapAccumL (\(a:as') _ -> (as', a)) (toList as) bs)
 
 zipper1 :: Traversable1 t => t a -> Zipper t a
 zipper1 = fromJust . zipper
@@ -39,13 +35,13 @@ size (Zipper _ _ s) = Seq.length s
 
 instance ComonadStore Int (Zipper t) where
   pos (Zipper _ i _) = i
-  peek (Zipper _ i s) = Seq.index s i 
+  peek j (Zipper _ _ s) = Seq.index s j
 
 instance Functor (Zipper t) where
   fmap f (Zipper t i s) = Zipper t i (fmap f s)
 
 instance Foldable (Zipper t) where
-  foldMap f (Zipper _ _ s) = foldMap s
+  foldMap f (Zipper _ _ s) = foldMap f s
 
 instance Traversable (Zipper t) where 
   traverse f (Zipper t i s) = Zipper t i <$> traverse f s

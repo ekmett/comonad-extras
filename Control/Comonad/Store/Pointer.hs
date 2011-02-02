@@ -1,4 +1,4 @@
-{-# LANGUAGE CPP #-}
+{-# LANGUAGE CPP, FlexibleInstances, MultiParamTypeClasses, FunctionalDependencies #-}
 -----------------------------------------------------------------------------
 -- |
 -- Module      :  Control.Comonad.Store.Pointer
@@ -33,11 +33,6 @@ module Control.Comonad.Store.Pointer
     Pointer, pointer, runPointer
   -- * The Pointer comonad transformer
   , PointerT(..), runPointerT
-  -- * Operations
-  , pos
-  , seek, seeks
-  , peek, peeks
-  -- * Pointer specific operations
   , pointerBounds 
   , module Control.Comonad.Store.Class
   ) where
@@ -98,7 +93,7 @@ instance Ix i => ComonadTrans (PointerT i) where
 instance Ix i => ComonadHoist (PointerT i) where
   cohoist (PointerT g i) = PointerT (Identity (extract g)) i
 
-instance Ix i => ComonadStore (PointerT i) where
+instance (Comonad w, Ix i) => ComonadStore i (PointerT i w) where
   pos (PointerT _ i) = i
   seek i ~(PointerT g _) = PointerT g i
   seeks f ~(PointerT g i) = PointerT g (f i)
@@ -106,5 +101,5 @@ instance Ix i => ComonadStore (PointerT i) where
   peeks f ~(PointerT g i) = extract g ! f i
 
 -- | Extract the bounds of the currently focused array
-pointerBounds :: Ix i => PointerT i w a -> (i,i)
+pointerBounds :: (Comonad w, Ix i) => PointerT i w a -> (i,i)
 pointerBounds (PointerT g _) = bounds (extract g)
