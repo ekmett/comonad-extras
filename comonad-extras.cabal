@@ -1,0 +1,45 @@
+name:          comonad-extras
+category:      Control, Comonads
+version:       0.1
+license:       BSD3
+cabal-version: >= 1.6
+license-file:  LICENSE
+author:        Edward A. Kmett
+maintainer:    Edward A. Kmett <ekmett@gmail.com>
+stability:     experimental
+homepage:      git://github.com/ekmett/comonad-extras/
+copyright:     Copyright (C) 2011 Edward A. Kmett
+synopsis:      Comonad transformers requiring extensions to Haskell 98
+description:   Comonads and comonad transformers that require extensions to Haskell 98
+build-type:    Simple
+
+source-repository head
+  type: git
+  location: git://github.com/ekmett/comonad-extras.git
+
+flag DeriveDataTypeable
+  manual: False
+  default: True
+
+library
+  build-depends: 
+    base >= 4 && < 4.4,
+    comonad >= 1.0.1 && < 1.1,
+    distributive >= 0.1 && < 0.2,
+    semigroupoids >= 1.0 && < 1.2,
+    semigroups >= 0.3.4 && < 0.4,
+    transformers >= 0.2.0 && <= 0.3,
+    comonad-transformers >= 1.5 && < 1.6,
+    comonads-fd >= 1.5.0 && < 1.6
+
+  if flag(DeriveDataTypeable)
+    extensions: DeriveDataTypeable
+    cpp-options: -DLANGUAGE_DeriveDataTypeable
+
+  extensions: CPP
+
+  exposed-modules:
+    Control.Comonad.Store.Zipper
+    Control.Comonad.Store.Pointer
+
+  ghc-options:      -Wall 
