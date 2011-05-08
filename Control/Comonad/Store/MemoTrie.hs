@@ -37,7 +37,10 @@ import Control.Comonad.Store.Class
 import Control.Comonad.Env.Class
 import Control.Comonad.Traced.Class
 import Data.Functor.Identity
+import Data.Functor.Apply
 import Data.MemoTrie
+import Data.Semigroup
+import Data.Monoid
 
 #ifdef __GLASGOW_HASKELL__
 import Data.Typeable
@@ -75,6 +78,13 @@ runStoreT (StoreT wf s) = (untrie <$> wf, s)
 
 instance (Functor w, HasTrie s) => Functor (StoreT s w) where
   fmap f (StoreT wf s) = StoreT (fmap (fmap f) wf) s
+
+instance (Apply w, Semigroup s, HasTrie s) => Apply (StoreT s w) where
+  StoreT ff m <.> StoreT fa n = StoreT ((<*>) <$> ff <.> fa) (m <> n)
+
+instance (Applicative w, Semigroup s, Monoid s, HasTrie s) => Applicative (StoreT s w) where
+  pure a = StoreT (pure (pure a)) mempty
+  StoreT ff m <*> StoreT fa n = StoreT ((<*>) <$> ff <*> fa) (m `mappend` n)
 
 instance (Extend w, HasTrie s) => Extend (StoreT s w) where
   duplicate (StoreT wf s) = StoreT (extend (trie . StoreT) wf) s
