@@ -1,13 +1,13 @@
 name:          comonad-extras
 category:      Control, Comonads
-version:       0.4.0
+version:       0.4.0.1
 license:       BSD3
 cabal-version: >= 1.6
 license-file:  LICENSE
 author:        Edward A. Kmett
 maintainer:    Edward A. Kmett <ekmett@gmail.com>
 stability:     experimental
-homepage:      git://github.com/ekmett/comonad-extras/
+homepage:      http://github.com/ekmett/comonad-extras/
 copyright:     Copyright (C) 2011 Edward A. Kmett
 synopsis:      Comonad transformers requiring extensions to Haskell 98
 description:   Comonads and comonad transformers that require extensions to Haskell 98
