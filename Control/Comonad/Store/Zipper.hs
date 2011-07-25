@@ -1,4 +1,5 @@
 {-# LANGUAGE Rank2Types, MultiParamTypeClasses #-}
+{-# OPTIONS_GHC -fno-warn-incomplete-patterns #-}
 
 
 module Control.Comonad.Store.Zipper 
