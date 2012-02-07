@@ -9,8 +9,7 @@ import Control.Applicative
 import Control.Comonad (Extend(..), Comonad(..))
 
 import Data.Foldable
-import Data.Traversable 
-import Data.Functor.Apply
+import Data.Traversable
 import Data.Semigroup.Traversable
 import Data.Sequence (Seq)
 import qualified Data.Sequence as Seq
