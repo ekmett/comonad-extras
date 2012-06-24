@@ -36,6 +36,7 @@ size (Zipper _ _ s) = Seq.length s
 instance ComonadStore Int (Zipper t) where
   pos (Zipper _ i _) = i
   peek j (Zipper _ _ s) = Seq.index s j
+  experiment f (Zipper _ i s) = Seq.index s <$> f i
 
 instance Functor (Zipper t) where
   fmap f (Zipper t i s) = Zipper t i (fmap f s)

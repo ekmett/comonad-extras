@@ -101,10 +101,11 @@ instance Ix i => ComonadHoist (PointerT i) where
 
 instance (Comonad w, Ix i) => ComonadStore i (PointerT i w) where
   pos (PointerT _ i) = i
-  seek i ~(PointerT g _) = PointerT g i
-  seeks f ~(PointerT g i) = PointerT g (f i)
+  seek i (PointerT g _) = PointerT g i
+  seeks f (PointerT g i) = PointerT g (f i)
   peek i (PointerT g _) = extract g ! i
-  peeks f ~(PointerT g i) = extract g ! f i
+  peeks f (PointerT g i) = extract g ! f i
+  experiment f (PointerT g i) = fmap (extract g !) (f i)
 
 -- | Extract the bounds of the currently focused array
 pointerBounds :: (Comonad w, Ix i) => PointerT i w a -> (i,i)
