@@ -1,13 +1,23 @@
-{-# LANGUAGE Rank2Types, MultiParamTypeClasses #-}
+{-# LANGUAGE Rank2Types #-}
+{-# LANGUAGE MultiParamTypeClasses #-}
 {-# OPTIONS_GHC -fno-warn-incomplete-patterns #-}
-
-
-module Control.Comonad.Store.Zipper 
+-----------------------------------------------------------------------------
+-- |
+-- Module      :  Control.Comonad.Store.Zipper
+-- Copyright   :  (C) 2008-2012 Edward Kmett,
+-- License     :  BSD-style (see the file LICENSE)
+--
+-- Maintainer  :  Edward Kmett <ekmett@gmail.com>
+-- Stability   :  experimental
+-- Portability :  portable
+--
+----------------------------------------------------------------------------
+module Control.Comonad.Store.Zipper
   ( Zipper, zipper, zipper1, unzipper, size) where
 
 import Control.Applicative
-import Control.Comonad (Extend(..), Comonad(..))
-
+import Control.Comonad (Comonad(..))
+import Data.Functor.Extend
 import Data.Foldable
 import Data.Traversable
 import Data.Semigroup.Traversable
@@ -16,18 +26,18 @@ import qualified Data.Sequence as Seq
 import Control.Comonad.Store (ComonadStore(..))
 import Data.Maybe (fromJust)
 
-data Zipper t a = Zipper (forall b. Seq b -> t b) {-# UNPACK #-} !Int !(Seq a) 
+data Zipper t a = Zipper (forall b. Seq b -> t b) {-# UNPACK #-} !Int !(Seq a)
 
 zipper :: Traversable t => t a -> Maybe (Zipper t a)
 zipper t = case toList t of
   [] -> Nothing
-  xs -> Just (Zipper (refill t) 0 (Seq.fromList xs)) 
+  xs -> Just (Zipper (refill t) 0 (Seq.fromList xs))
   where refill bs as = snd (mapAccumL (\(a:as') _ -> (as', a)) (toList as) bs)
 
 zipper1 :: Traversable1 t => t a -> Zipper t a
 zipper1 = fromJust . zipper
-  
-unzipper :: Zipper t a -> t a 
+
+unzipper :: Zipper t a -> t a
 unzipper (Zipper t _ s) = t s
 
 size :: Zipper t a -> Int
@@ -44,11 +54,12 @@ instance Functor (Zipper t) where
 instance Foldable (Zipper t) where
   foldMap f (Zipper _ _ s) = foldMap f s
 
-instance Traversable (Zipper t) where 
+instance Traversable (Zipper t) where
   traverse f (Zipper t i s) = Zipper t i <$> traverse f s
 
 instance Extend (Zipper t) where
-  extend f (Zipper t i s) = Zipper t i (Seq.mapWithIndex (\j _ -> f (Zipper t j s)) s)
+  extended = extend
 
 instance Comonad (Zipper t) where
-  extract (Zipper _ i s) = Seq.index s i 
+  extend f (Zipper t i s) = Zipper t i (Seq.mapWithIndex (\j _ -> f (Zipper t j s)) s)
+  extract (Zipper _ i s) = Seq.index s i

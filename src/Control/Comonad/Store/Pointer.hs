@@ -1,8 +1,12 @@
-{-# LANGUAGE CPP, FlexibleInstances, MultiParamTypeClasses, FunctionalDependencies, UndecidableInstances #-}
+{-# LANGUAGE CPP #-}
+{-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE MultiParamTypeClasses #-}
+{-# LANGUAGE FunctionalDependencies #-}
+{-# LANGUAGE UndecidableInstances #-}
 -----------------------------------------------------------------------------
 -- |
 -- Module      :  Control.Comonad.Store.Pointer
--- Copyright   :  (C) 2008-2011 Edward Kmett
+-- Copyright   :  (C) 2008-2012 Edward Kmett
 -- License     :  BSD-style (see the file LICENSE)
 --
 -- Maintainer  :  Edward Kmett <ekmett@gmail.com>
@@ -45,6 +49,7 @@ import Control.Comonad.Store.Class
 import Control.Comonad.Traced.Class
 import Control.Comonad.Env.Class
 import Data.Functor.Identity
+import Data.Functor.Extend
 import Data.Array
 
 #ifdef __GLASGOW_HASKELL__
@@ -86,11 +91,12 @@ instance (Functor w, Ix i) => Functor (PointerT i w) where
   fmap f (PointerT g i) = PointerT (fmap f <$> g) i
 
 instance (Comonad w, Ix i) => Extend (PointerT i w) where
+  duplicated = duplicate
+
+instance (Comonad w, Ix i) => Comonad (PointerT i w) where
   duplicate (PointerT g i) = PointerT (extend p g) i where
     p wa = listArray b $ PointerT wa <$> range b where
       b = bounds (extract wa)
-
-instance (Comonad w, Ix i) => Comonad (PointerT i w) where
   extract (PointerT g i) = extract g ! i
 
 instance Ix i => ComonadTrans (PointerT i) where
