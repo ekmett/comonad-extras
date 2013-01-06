@@ -1,6 +1,6 @@
 name:          comonad-extras
 category:      Control, Comonads
-version:       3.0
+version:       3.0.0.1
 license:       BSD3
 cabal-version: >= 1.6
 license-file:  LICENSE
@@ -38,7 +38,7 @@ library
     comonad              >= 3.0     && < 3.1,
     comonad-transformers >= 3.0     && < 3.1,
     comonads-fd          >= 3.0     && < 3.1,
-    distributive         >= 0.2.2   && < 0.3,
+    distributive         >= 0.2.2   && < 0.4,
     semigroupoids        >= 3.0     && < 3.1,
     transformers         >= 0.2     && < 0.4
 
