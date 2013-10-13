@@ -103,7 +103,7 @@ instance Ix i => ComonadTrans (PointerT i) where
   lower (PointerT g i) = fmap (! i) g
 
 instance Ix i => ComonadHoist (PointerT i) where
-  cohoist (PointerT g i) = PointerT (Identity (extract g)) i
+  cohoist l (PointerT g i) = PointerT (l g) i
 
 instance (Comonad w, Ix i) => ComonadStore i (PointerT i w) where
   pos (PointerT _ i) = i

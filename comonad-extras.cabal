@@ -1,6 +1,6 @@
 name:          comonad-extras
 category:      Control, Comonads
-version:       3.0.2
+version:       3.2
 license:       BSD3
 cabal-version: >= 1.6
 license-file:  LICENSE
@@ -9,9 +9,9 @@ maintainer:    Edward A. Kmett <ekmett@gmail.com>
 stability:     experimental
 homepage:      http://github.com/ekmett/comonad-extras/
 bug-reports:   http://github.com/ekmett/comonad-extras/issues
-copyright:     Copyright (C) 2011 Edward A. Kmett
-synopsis:      Comonad transformers requiring extensions to Haskell 98
-description:   Comonads and comonad transformers that require extensions to Haskell 98
+copyright:     Copyright (C) 2011-2013 Edward A. Kmett
+synopsis:      Exotic comonad transformers
+description:   Exotic comonad transformers
 build-type:    Simple
 extra-source-files: .travis.yml
 
@@ -35,11 +35,9 @@ library
     array                >= 0.3   && < 0.6,
     base                 >= 4     && < 5,
     containers           >= 0.4   && < 0.6,
-    comonad              >= 3     && < 4,
-    comonad-transformers >= 3     && < 4,
-    comonads-fd          >= 3     && < 4,
+    comonad              >= 3.2   && < 4,
     distributive         >= 0.2.2 && < 1,
-    semigroupoids        >= 3     && < 4,
+    semigroupoids        >= 3.2   && < 4,
     transformers         >= 0.2   && < 0.4
 
   exposed-modules:
