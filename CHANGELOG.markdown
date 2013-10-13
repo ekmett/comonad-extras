@@ -1,3 +1,7 @@
+3.0.2
+-----
+* Updated `array` dependency to be compatible with GHC 7.8
+
 3.0.1
 -----
 * Removed upper bounds on dependencies on my other packages
