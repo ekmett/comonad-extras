@@ -6,7 +6,7 @@
 -----------------------------------------------------------------------------
 -- |
 -- Module      :  Control.Comonad.Store.Pointer
--- Copyright   :  (C) 2008-2012 Edward Kmett
+-- Copyright   :  (C) 2008-2015 Edward Kmett
 -- License     :  BSD-style (see the file LICENSE)
 --
 -- Maintainer  :  Edward Kmett <ekmett@gmail.com>
@@ -52,7 +52,7 @@ import Data.Functor.Identity
 import Data.Functor.Extend
 import Data.Array
 
-#ifdef __GLASGOW_HASKELL__
+#if defined(__GLASGOW_HASKELL__) && __GLASGOW_HASKELL__ < 708
 import Data.Typeable
 instance (Typeable i, Typeable1 w) => Typeable1 (PointerT i w) where
   typeOf1 diwa = mkTyConApp storeTTyCon [typeOf (i diwa), typeOf1 (w diwa)]
@@ -83,6 +83,9 @@ runPointer :: Pointer i a -> (Array i a, i)
 runPointer (PointerT (Identity f) i) = (f, i)
 
 data PointerT i w a = PointerT (w (Array i a)) i
+#if __GLASGOW_HASKELL__ >= 708
+  deriving Typeable
+#endif
 
 runPointerT :: PointerT i w a -> (w (Array i a), i)
 runPointerT (PointerT g i) = (g, i)
