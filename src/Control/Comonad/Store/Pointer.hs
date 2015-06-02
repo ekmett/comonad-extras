@@ -52,8 +52,11 @@ import Data.Functor.Identity
 import Data.Functor.Extend
 import Data.Array
 
-#if defined(__GLASGOW_HASKELL__) && __GLASGOW_HASKELL__ < 708
+#if __GLASGOW_HASKELL__
 import Data.Typeable
+#endif
+
+#if defined(__GLASGOW_HASKELL__) && __GLASGOW_HASKELL__ < 708
 instance (Typeable i, Typeable1 w) => Typeable1 (PointerT i w) where
   typeOf1 diwa = mkTyConApp storeTTyCon [typeOf (i diwa), typeOf1 (w diwa)]
     where
