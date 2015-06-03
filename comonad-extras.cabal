@@ -37,8 +37,8 @@ library
     containers           >= 0.4   && < 0.6,
     comonad              >= 4     && < 5,
     distributive         >= 0.3.2 && < 1,
-    semigroupoids        >= 4     && < 5,
-    transformers         >= 0.2   && < 0.4
+    semigroupoids        >= 4     && < 6,
+    transformers         >= 0.2   && < 0.5
 
   exposed-modules:
     Control.Comonad.Store.Zipper
