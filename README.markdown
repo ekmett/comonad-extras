@@ -1,7 +1,7 @@
 comonad-extras
 ==============
 
-[![Hackage](https://img.shields.io/hackage/v/comonad-extras.svg)](https://hackage.haskell.org/package/comonad-extras) [![Build Status](https://secure.travis-ci.org/ekmett/comonad-extras.png?branch=master)](http://travis-ci.org/ekmett/comonad-extras
+[![Hackage](https://img.shields.io/hackage/v/comonad-extras.svg)](https://hackage.haskell.org/package/comonad-extras) [![Build Status](https://secure.travis-ci.org/ekmett/comonad-extras.png?branch=master)](http://travis-ci.org/ekmett/comonad-extras)
 
 This package provides instances of the classes from [`comonads-fd`](/ekmett/comonads-fd) that require more exotic extensions.
 
