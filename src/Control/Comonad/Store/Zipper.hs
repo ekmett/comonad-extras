@@ -15,7 +15,9 @@
 module Control.Comonad.Store.Zipper
   ( Zipper, zipper, zipper1, unzipper, size) where
 
+#if !defined(__GLASGOW_HASKELL__) || __GLASGOW_HASKELL__ < 710
 import Control.Applicative
+#endif
 import Control.Comonad (Comonad(..))
 import Data.Functor.Extend
 import Data.Foldable

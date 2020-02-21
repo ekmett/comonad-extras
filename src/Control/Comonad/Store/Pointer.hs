@@ -44,7 +44,9 @@ module Control.Comonad.Store.Pointer
   , module Control.Comonad.Store.Class
   ) where
 
+#if !defined(__GLASGOW_HASKELL__) || __GLASGOW_HASKELL__ < 710
 import Control.Applicative
+#endif
 import Control.Comonad
 import Control.Comonad.Hoist.Class
 import Control.Comonad.Trans.Class
