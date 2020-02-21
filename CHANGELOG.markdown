@@ -1,3 +1,8 @@
+4.0.1
+-----
+* Dependency bumps for containers, comonad, and transformers
+* Fix warnings
+
 3.0.2
 -----
 * Updated `array` dependency to be compatible with GHC 7.8
